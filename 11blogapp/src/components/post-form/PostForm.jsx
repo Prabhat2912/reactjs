@@ -30,32 +30,31 @@ export default function PostForm({ post }) {
 
       if (file) {
         appwriteService.deleteFile(post.image);
-        }
-        
-        const dbPost = await appwriteService.updatePost(post.$id{
-            ...data,
-            image: file ? file.$id : undefined
-        })
+      }
+
+      const dbPost = await appwriteService.updatePost(post.$id, {
+        ...data,
+        image: file ? file.$id : undefined,
+      });
+
+      if (dbPost) {
+        navigate(`/post/${dbPost.$id}`);
+      }
+    } else {
+      const file = await appwriteService.uploadFile(data.image[0]);
+      if (file) {
+        const fileId = file.$id;
+        data.image = fileId;
+        const dbPost = await appwriteService.createPost({
+          ...data,
+          userid: userData.$id,
+        });
 
         if (dbPost) {
-            navigate(`/post/${dbPost.$id}`)
-        }
-
-      }
-      
-    else {
-        const file = await appwriteService.uploadFile(data.image[0])
-        if (file) {
-            const fileId = file.$id
-            data.image = fileId
-            const dbPost = await appwriteService.createPost({ ...data, userid: userData.$id })
-            
-
-            if (dbPost) {
-                navigate(`/post/${dbPost.$id}`)
-            }
+          navigate(`/post/${dbPost.$id}`);
         }
       }
+    }
   };
 
   const slugTransform = useCallback((value) => {
