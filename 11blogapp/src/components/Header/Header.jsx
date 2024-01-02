@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Container } from "../container/Container";
-import { Logo } from "../Logo";
+import Container from "../container/Container";
+import Logo from "../Logo";
 
 import { Link } from "react-router-dom";
 import LogoutBtn from "./LogoutBtn";
@@ -47,7 +47,7 @@ function Header() {
         <nav className="flex">
           <div className="mr-4">
             <Link to="/">
-              <Logo />
+              <Logo width={100} className="rounded-full h-[100px] w-[100px]" />
             </Link>
           </div>
           <ul className="flex ml-auto">
